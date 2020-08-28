@@ -1,0 +1,6 @@
+chrome 0 3
+minesweep 0 6
+calc 9 4
+firefox 13 5
+bash 15 6
+hello 19 3

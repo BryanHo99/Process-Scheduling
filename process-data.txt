@@ -1,0 +1,10 @@
+chrome 0 3
+minesweep 1 6
+calc 4 4
+discord 4 5
+bash 6 2
+vmware 4 4
+solitaire 11 3
+geany 8 4
+pluma 12 1
+firefox 16 5

@@ -1,0 +1,63 @@
+Task 1 - Non-preemptive scheduling
+- The scheduling algorithm I have chosen is FCFS (First Come First Serve).
+- How FCFS works is that the process at the front of the queue will be executed by the processor until it is completed.
+- There are no interrupts while a process is in RUNNING state since this algorithm is non-preemptive.
+- The sequence of steps of how I simulate this algorithm is as such:
+	1) If there are still processes remaining that needs to be scheduled / in queue, continue simulating.
+	2) For every process found in the data array (an array storing all the processes found in the text file),
+	   if that process' arrival time == current clock time, add it to the queue and set its state to READY.
+	   This allows for multiple processes with the same arrival times to be pushed to the queue.
+	3) Set the state of the process at the front of the queue to be RUNNING.
+	4) For every other process in the queue, increment each of their total wait time.
+	5) Decrement the running process' remaining time.
+	6) Now check if the running process' remaining time <= 0. If so, set its state to EXIT and calculate its
+	   turnaround time.
+	7) Increment the front index so that it is pointing to the next process in line.
+	8) Decrement the number of processes remaining.
+	9) Increment the clock time and go back to step 1 to repeat the entire process again until the number of processes
+	   remaining is 0.
+- There are some assumptions made for this scheduling process which includes:
+	- The data array is sorted first in the order of arrival time before running the FCFS algorithm.
+	- This means that in the case of multiple processes having the same arrival time, the first one in line after the sort
+	  will be the first process to be executed by the processor.
+
+
+
+
+Task 2 - Preemptive scheduling
+- The scheduling algorithm is RR (Round Robin).
+- How Round Robin works is that each process in the queue gets an equal amount of time to be executed by the processor.
+- In this case, each process gets a time of 2 seconds to be executed by the processor then it is shifted back to the back
+  of the queue.
+- The sequence of steps of how I simulate this algorithm is as such:
+	1) If there are still processes remaining that needs to be scheduled / in queue, continue simulating.
+	2) For every process found in the data array (an array storing all the processes found in the text file),
+	   if that process' arrival time == current clock time, add it to the queue and set its state to READY.
+	   This allows for multiple processes with the same arrival times to be pushed to the queue.
+	3) Set the state of the process at the front of the queue to be RUNNING.
+	4) For every other process in the queue, increment each of their total wait time.
+	5) Decrement the running process' remaining time and time quantum.
+	6) Now check if the running process' remaining time <= 0. If so:
+			- Set its state to EXIT and calculate its turnaround time.
+			- Delete the process at the front of the queue by shifting all the other processes in front by 1 index.
+			- Decrement rear index so that it points to the correct end of the queue after deleting the front process.
+			- Decrement the number of processes remaining.
+	7) If not, check if the running process' time quantum is 0 and it is the only process in the queue. If so:
+			- Reset its time quantum back to 2 seconds. This means it gets to remain running for 2 more seconds again.
+	8) If not, check if the running process' time quantum is 0 and it is NOT the only process in the queue. If so:
+			- Use a variable to temporarily store the running process.
+			- Delete the process at the front of the queue by shifting all the other processes in front by 1 index.
+			- Set the rear of the queue to be the temporary variable (the used-to-be running process).
+			- Set that running process' state back to READY and reset its time quantum back to 2 seconds.
+	9) Increment the clock time and go back to step 1 to repeat the entire process again until the number of processes
+	   remaining is 0.
+- There are some assumptions made for this scheduling process which includes:
+	- The assumptions made for handling multiple processes with the same arrival time is the same as that of FCFS where
+	  the first process in line in the sorted data array will be executed first.
+	- There is also the case where if there is only 1 process currently running and the its time quantum is up but at
+	  that exact moment, another process enters the queue, we allow the currently running process to run for another
+	  2 seconds first.
+	- On the other hand, if a running process' time quantum is up but it is not the only process in the queue and at the
+	  that same moment, a new process enters the queue, the assumption I made was the running process should be first moved
+	  to the back of the queue first, only followed by the newly added process into the queue.
+	- How all these assumptions are handled in action are shown when reading test.txt.
